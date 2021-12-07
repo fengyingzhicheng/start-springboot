@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+    <context id="DB2Tables" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+        <!--
+            caseSensitive 是否区分大小写，默认值 false。如果数据库区分大小写，这里就需要配置为 true，这样当表名为 USER 时，会生成 @Table(name = "USER") 注解，否则使用小写 user 时会找不到表。
+            forceAnnotation 是否强制生成注解，默认 false，如果设置为 true，不管数据库名和字段名是否一致，都会生成注解（包含 @Table 和 @Column）。
+            generateColumnConsts 在生成的 model中，增加字段名的常量，便于使用 Example 拼接查询条件的时候使用。
+        -->
+        <property name="javaFileEncoding" value="UTF-8"/>
+
+        <!-- beginningDelimiter 和 endingDelimiter 开始和结束分隔符，对于有关键字的情况下适用。 -->
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+
+        <!-- 是否去除自动生成的注释 true：是 ： false:使用默认的（一大坨英文） POJO上的注释内容来自数据库字段的comment-->
+        <property name="useMapperCommentGenerator" value="true"/>
+
+        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+            <!-- mappers 可以使用通用Mapper默认的Mapper接口，这样就不需要自己写BaseMapper。届时自动生成的Mapper接口会继承Mapper<T>而不是BaseMapper -->
+            <!--<property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>-->
+            <property name="mappers" value="com.flyin.example.mapper.base.BaseMapper"/>
+            <property name="caseSensitive" value="true"/>
+            <!-- 为生成的Model增加@Data注解 -->
+            <property name="lombok" value="Data"/>
+        </plugin>
+
+        <!-- 数据库连接配置 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql:///mall"
+                        userId="root"
+                        password="123">
+
+            <!-- mysql 驱动8.x版本需要设置时区 value设置为GMT、UTC都可以 -->
+            <property name="serverTimezone" value="GMT"/>
+
+            <!-- 解决生成其他数据库的表的model和mapper等 -->
+            <!-- 也可解决生成的model里面缺少@Id注解问题（此问题mysql驱动版本回退到5.1也可以解决）-->
+            <property name="nullCatalogMeansCurrent" value="true"/>
+        </jdbcConnection>
+
+
+        <javaTypeResolver>
+            <!--
+             true：使用BigDecimal对应decimal(小数)和 numeric(数字)数据类型
+             false：默认,
+                 scale>0;length>18：使用BigDecimal;
+                 scale=0;length[10,18]：使用Long；
+                 scale=0;length[5,9]：使用Integer；
+                 scale=0;length<5：使用Short；
+              -->
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+
+        <!-- 指定POJO生成的位置-->
+        <javaModelGenerator targetPackage="com.flyin.example.pojo" targetProject="src/main/java">
+            <!-- 在targetPackage的基础上，根据数据库的schema再生成一层package，最终生成的类放在这个package下，默认为false -->
+            <property name="enableSubPackages" value="true"/>
+            <!-- 设置是否在setter方法中，对String类型字段调用trim()方法(如果你用Lombok，忽略这个) -->
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+        <!-- 指定XML生成的位置-->
+        <sqlMapGenerator targetPackage="com.flyin.example.mapper" targetProject="src/main/resources"/>
+        <!-- 指定Mapper接口生成的位置-->
+        <javaClientGenerator targetPackage="com.flyin.example.mapper" targetProject="src/main/java" type="XMLMAPPER"/>
+
+        <!-- table标签中，tableName代表表名 domainObjectName可以指定生成的实体名，不指定的话默认使用表名 -->
+        <!-- 要保证表t_superman存在哦~，使用%通配符则可生成符合规则的所有表对应的model、mapper等文件，比sys_%，生成sys_city sys_province... -->
+        <table tableName="pms_product">
+            <!-- 在Model的id字段时加上@GeneratedValue(...)，用于插入后返回主键 -->
+            <generatedKey column="id" sqlStatement="MYSQL"/>
+            <!-- 如果希望对默认生成的名字进行字符替换，可以使用下方配置。比如：把生成的POJO、Mapper接口、Mapper.xml名字的前缀T去掉（否则t_user 会输出 TUser） -->
+            <domainObjectRenamingRule searchString="^T" replaceString="" />
+        </table>
+        <!--<table tableName="sys_%" />-->
+    </context>
+</generatorConfiguration>

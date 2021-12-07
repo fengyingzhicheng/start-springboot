@@ -13,7 +13,7 @@
     <modules>
         <module>springboot-mybatis</module>
         <module>springboot-mybatis-generator</module>
-        <module>springboot-tkmapper</module>
+        <module>springboot-tkmapper-start</module>
         <module>springboot-parent</module>
     </modules>
 
