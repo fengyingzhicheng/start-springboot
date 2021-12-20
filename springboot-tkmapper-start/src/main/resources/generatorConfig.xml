@@ -78,5 +78,12 @@
             <domainObjectRenamingRule searchString="^T" replaceString="" />
         </table>
         <!--<table tableName="sys_%" />-->
+
+        <table tableName="tk_user">
+            <!-- 在Model的id字段时加上@GeneratedValue(...)，用于插入后返回主键 -->
+            <generatedKey column="id" sqlStatement="MYSQL"/>
+            <!-- 如果希望对默认生成的名字进行字符替换，可以使用下方配置。比如：把生成的POJO、Mapper接口、Mapper.xml名字的前缀T去掉（否则t_user 会输出 TUser） -->
+            <!--<domainObjectRenamingRule searchString="^T" replaceString="" />-->
+        </table>
     </context>
 </generatorConfiguration>
