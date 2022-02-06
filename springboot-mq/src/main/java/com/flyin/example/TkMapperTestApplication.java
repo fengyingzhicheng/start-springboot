@@ -6,10 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @MapperScan("com.flyin.example.mapper")
 @SpringBootApplication
-public class MybatisTestApplication {
+public class TkMapperTestApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(MybatisTestApplication.class, args);
+        SpringApplication.run(TkMapperTestApplication.class, args);
     }
 
 }

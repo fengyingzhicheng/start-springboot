@@ -1,0 +1,13 @@
+生产者发送一条消息给交换机
+交换机根据关键字匹配到对应的队列
+将消息存入队列
+消费者从队列中取出消息使用。
+
+在绑定（Binding）Exchange与Queue的同时，一般会指定一个binding key；
+消费者将消息发送给Exchange时，一般会指定一个routing key；
+当binding key与routing key相匹配时，消息将会被路由到对应的Queue中。
+
+在绑定多个Queue到同一个Exchange的时候，这些Binding允许使用相同的binding key。
+binding key 并不是在所有情况下都生效，它依赖于Exchange Type，
+比如fanout类型的Exchange就会无视binding key，
+而是将消息路由到所有绑定到该Exchange的Queue。
