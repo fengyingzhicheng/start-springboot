@@ -3,12 +3,13 @@ package com.flyin.example.stream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
+import java.util.function.BiFunction;
 import java.util.stream.Stream;
 
 public class StreamOfReduce {
     public static void main(String[] args) {
         learnStream();
+        learnStreamOfReduce();
     }
 
 
@@ -50,5 +51,20 @@ public class StreamOfReduce {
         of = Stream.of("张飞", "关羽");
         System.out.print("字符串求和为 ");
         System.out.println(of.reduce(0, (a, b) -> a + b.length(), Integer::sum));
+    }
+
+    private static void learnStreamOfReduce() {
+        List<Student> lists = new ArrayList<>();
+        lists.add(new Student("xx", 16, 50));
+        lists.add(new Student("yy", 20, 60));
+        lists.add(new Student("zz", 25, 70));
+        lists.add(new Student("cc", 30, 80));
+
+        BiFunction<Double, Student, Double> accumulator = (a, b) -> a * (b.getAge() * 2);
+        //BiFunction<U, ? super T, U> accumulator T的任何父类都可以 所以可以换成Human
+        //BiFunction<Double, Human, Double> accumulator = (a, b) -> a * (b.getAge() * 2);
+        Double product4 = lists.parallelStream().reduce(1.0, accumulator,
+                (a, b) -> a * b * 2);
+        System.out.println("product:" + product4);
     }
 }

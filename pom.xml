@@ -23,6 +23,9 @@
         <module>springboot-java-enum</module>
         <module>springboot-java-io</module>
         <module>spingboot-java-thread</module>
+        <module>springboot-java-pattern</module>
+        <module>springboot-java-proxy</module>
+        <module>springboot-valid-exception</module>
     </modules>
 
     <parent>

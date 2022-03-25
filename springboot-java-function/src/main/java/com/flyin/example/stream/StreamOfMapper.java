@@ -3,12 +3,14 @@ package com.flyin.example.stream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class StreamOfMapper {
     public static void main(String[] args) {
 //        learnMap();
-        learnFlatMap();
+//        learnFlatMap();
+        learnFlatMapByGenerics();
     }
 
     private static void learnMap() {
@@ -17,7 +19,7 @@ public class StreamOfMapper {
         lists.add(2);
         lists.add(3);
         //使用并行流来处理
-        Integer product = lists.parallelStream().reduce(1, (a, b) -> a *  (b * 2),
+        Integer product = lists.parallelStream().reduce(1, (a, b) -> a * (b * 2),
                 (a, b) -> a * b);
         System.out.println("product:" + product);//48
 
@@ -41,18 +43,30 @@ public class StreamOfMapper {
         //流里面的元素还是一个数组
         citys.stream()
                 .map(mCities -> Arrays.stream(mCities.split(" ")))//流里面的每个元素还是数组
-                .forEach(cities ->cities.forEach(city-> System.out.print(city+" ")));//note2
+                .forEach(cities -> cities.forEach(city -> System.out.print(city + " ")));//note2
 
         System.out.println();
         System.out.println();
 
         //直接一个flatMap()就把数组合并到映射流里面了
-        citys.stream().flatMap(mCities->Arrays.stream(mCities.split(" "))).forEach(System.out::println);//note3
+        citys.stream().flatMap(mCities -> Arrays.stream(mCities.split(" "))).forEach(System.out::println);//note3
 
         System.out.println();
 
         //使用distinct()方法去重！
-        citys.stream().flatMap(mCities->Arrays.stream(mCities.split(" "))).distinct().forEach(System.out::println);//note4
+        citys.stream().flatMap(mCities -> Arrays.stream(mCities.split(" "))).distinct().forEach(System.out::println);//note4
+
+    }
+
+    private static void learnFlatMapByGenerics() {
+        //(广州  深圳  上海  北京)的全拼的一些组合,下面我们就把每一个城市都划分一下
+        List<String> citys = Arrays.asList("GuangZhou ShangHai", "GuangZhou ShenZhen",
+                "ShangHai ShenZhen", "BeiJing ShangHai", "GuangZhou BeiJing", "ShenZhen BeiJing");
+
+
+        //使用distinct()方法去重！
+        Function<CharSequence, Number> function = mCities -> mCities.length();
+        citys.stream().map(function).forEach(System.out::println);
 
     }
 }
