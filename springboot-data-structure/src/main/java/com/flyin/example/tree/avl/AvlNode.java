@@ -61,9 +61,10 @@ public class AvlNode<T extends Comparable<? super T>> {
     }
 
     /**
-     * 左旋
-     * @param data
-     * @return
+     * 左旋转
+     *
+     * @param data 数据
+     * @return {@link AvlNode}<{@link T}>
      */
     private AvlNode<T> leftRotate(AvlNode<T> data) {
         AvlNode<T> root=data.right;
@@ -73,8 +74,9 @@ public class AvlNode<T extends Comparable<? super T>> {
 
     /**
      * 右旋
-     * @param data
-     * @return
+     *
+     * @param data 数据
+     * @return {@link AvlNode}<{@link T}>
      */
     private AvlNode<T> rightRotate(AvlNode<T> data) {
         AvlNode<T> root=data.left;
@@ -85,8 +87,9 @@ public class AvlNode<T extends Comparable<? super T>> {
 
     /**
      * 先左旋再右旋
-     * @param data
-     * @return
+     *
+     * @param data 数据
+     * @return {@link AvlNode}<{@link T}>
      */
     private AvlNode<T> leftRightRotate(AvlNode<T> data) {
         data.left=leftRotate(data.left);
@@ -95,8 +98,9 @@ public class AvlNode<T extends Comparable<? super T>> {
 
     /**
      * 先右旋再左旋
-     * @param data
-     * @return
+     *
+     * @param data 数据
+     * @return {@link AvlNode}<{@link T}>
      */
     private AvlNode<T> rightLeftRotate(AvlNode<T> data) {
         data.right=leftRotate(data.right);
@@ -104,6 +108,11 @@ public class AvlNode<T extends Comparable<? super T>> {
     }
 
 
+    /**
+     * 删除
+     *
+     * @param data 数据
+     */
     public void delete(T data) {
 
     }
