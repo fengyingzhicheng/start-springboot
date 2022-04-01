@@ -28,6 +28,11 @@ public class AvlNode<T extends Comparable<? super T>> {
         height = 1;
     }
 
+    /**
+     * 插入
+     *
+     * @param data 数据
+     */
     public void insert(AvlNode<T> data) {
         //当前遍历结点
         AvlNode<T> local = this;
@@ -83,9 +88,8 @@ public class AvlNode<T extends Comparable<? super T>> {
      * @return
      */
     private AvlNode<T> leftRightRotate(AvlNode<T> data) {
-        AvlNode<T> root=data.left;
-        root.right=data;
-        return root;
+        data.left=leftRotate(data.left);
+        return rightRotate(data);
     }
 
     /**
@@ -94,9 +98,8 @@ public class AvlNode<T extends Comparable<? super T>> {
      * @return
      */
     private AvlNode<T> rightLeftRotate(AvlNode<T> data) {
-        AvlNode<T> root=data.left;
-        root.right=data;
-        return root;
+        data.right=leftRotate(data.right);
+        return rightRotate(data);
     }
 
 
@@ -104,6 +107,12 @@ public class AvlNode<T extends Comparable<? super T>> {
 
     }
 
+    /**
+     * 高度
+     *
+     * @param data 数据
+     * @return int
+     */
     private int height(AvlNode<T> data) {
         if (data == null) {
             return 0;
@@ -112,6 +121,9 @@ public class AvlNode<T extends Comparable<? super T>> {
         }
     }
 
+    /**
+     * 打印
+     */
     public void print() {
         Queue<AvlNode<T>> queue = new ArrayDeque<>();
         queue.add(this);
