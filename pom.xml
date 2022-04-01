@@ -26,6 +26,9 @@
         <module>springboot-java-pattern</module>
         <module>springboot-java-proxy</module>
         <module>springboot-valid-exception</module>
+        <module>springboot-zookeeper</module>
+        <module>springboot-rocketmq</module>
+        <module>springboot-data-structure</module>
     </modules>
 
     <parent>
