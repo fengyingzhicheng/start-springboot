@@ -31,6 +31,7 @@ public class AvlNode<T extends Comparable<? super T>> {
     /**
      * 插入
      *
+     *
      * @param data 数据
      */
     public void insert(AvlNode<T> data) {
