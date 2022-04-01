@@ -31,33 +31,49 @@ public class AvlNode<T extends Comparable<? super T>> {
     /**
      * 插入
      *
-     *
-     * @param data 数据
+     * @param target 数据
+     * @param data   数据
      */
-    public void insert(AvlNode<T> data) {
+    public AvlNode<T> insert(AvlNode<T> target, AvlNode<T> data) {
         //当前遍历结点
-        AvlNode<T> local = this;
-        int compare = data.element.compareTo(local.element);
+        int compare = data.element.compareTo(target.element);
         if (compare > 0) {
-            if (local.right == null) {
-                local.right = data;
+            if (target.right == null) {
+                target.right = data;
             } else {
-                local.right.insert(data);
+                target.right = insert(target.right, data);
             }
         } else if (compare < 0) {
-            if (local.left == null) {
-                local.left = data;
+            if (target.left == null) {
+                target.left = data;
             } else {
-                local.left.insert(data);
+                target.left = insert(target.left, data);
             }
         }
 
-        if (Math.abs(height(left) - height(right)) >= 2) {
+        if (Math.abs(height(target.left) - height(target.right)) >= 2) {
             log.info("结点处不平衡，节点值为{}", this.element);
             //左右旋转
+//            if (height(left) > height(right)) {
+//                if (height(left.left) > height(left.right)) {
+//                    //右旋
+//                    rightRotate(this);
+//                } else {
+//                    //右左旋
+//                    rightLeftRotate(this);
+//                }
+//            } else {
+//                if (height(right.right) > height(right.left)) {
+//                    leftRotate(this);
+//                } else {
+//                    leftRightRotate(this);
+//                }
+//            }
 
         }
-        this.height = Math.max(height(left), height(right)) + 1;
+        target.height = Math.max(height(target.left), height(target.right)) + 1;
+
+        return target;
     }
 
     /**
@@ -67,8 +83,8 @@ public class AvlNode<T extends Comparable<? super T>> {
      * @return {@link AvlNode}<{@link T}>
      */
     private AvlNode<T> leftRotate(AvlNode<T> data) {
-        AvlNode<T> root=data.right;
-        root.left=data;
+        AvlNode<T> root = data.right;
+        root.left = data;
         return root;
     }
 
@@ -79,8 +95,8 @@ public class AvlNode<T extends Comparable<? super T>> {
      * @return {@link AvlNode}<{@link T}>
      */
     private AvlNode<T> rightRotate(AvlNode<T> data) {
-        AvlNode<T> root=data.left;
-        root.right=data;
+        AvlNode<T> root = data.left;
+        root.right = data;
         return root;
     }
 
@@ -92,7 +108,7 @@ public class AvlNode<T extends Comparable<? super T>> {
      * @return {@link AvlNode}<{@link T}>
      */
     private AvlNode<T> leftRightRotate(AvlNode<T> data) {
-        data.left=leftRotate(data.left);
+        data.left = leftRotate(data.left);
         return rightRotate(data);
     }
 
@@ -103,7 +119,7 @@ public class AvlNode<T extends Comparable<? super T>> {
      * @return {@link AvlNode}<{@link T}>
      */
     private AvlNode<T> rightLeftRotate(AvlNode<T> data) {
-        data.right=leftRotate(data.right);
+        data.right = leftRotate(data.right);
         return rightRotate(data);
     }
 

@@ -3,7 +3,6 @@ package com.flyin.example.tree.avl;
 import com.flyin.example.tree.service.Tree;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * @author 王军
@@ -18,7 +17,7 @@ public class AvlTree<T extends Comparable<? super T>> implements Tree<T> {
 
     @Override
     public void insert(T data) {
-        root.insert(new AvlNode<>(data));
+        root.insert(root,new AvlNode<>(data));
     }
 
     @Override
