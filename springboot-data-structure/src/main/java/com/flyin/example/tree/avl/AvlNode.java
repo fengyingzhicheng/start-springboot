@@ -50,30 +50,31 @@ public class AvlNode<T extends Comparable<? super T>> {
                 target.left = insert(target.left, data);
             }
         }
+        AvlNode<T> returnNode = target;
 
         if (Math.abs(height(target.left) - height(target.right)) >= 2) {
             log.info("结点处不平衡，节点值为{}", this.element);
             //左右旋转
-//            if (height(left) > height(right)) {
-//                if (height(left.left) > height(left.right)) {
-//                    //右旋
-//                    rightRotate(this);
-//                } else {
-//                    //右左旋
-//                    rightLeftRotate(this);
-//                }
-//            } else {
-//                if (height(right.right) > height(right.left)) {
-//                    leftRotate(this);
-//                } else {
-//                    leftRightRotate(this);
-//                }
-//            }
+            if (height(target.left) > height(target.right)) {
+                if (height(target.left.left) > height(target.left.right)) {
+                    //右旋
+                    returnNode=rightRotate(target);
+                } else {
+                    //右左旋
+                    returnNode=rightLeftRotate(target);
+                }
+            } else {
+                if (height(target.right.right) > height(target.right.left)) {
+                    returnNode=leftRotate(target);
+                } else {
+                    returnNode=leftRightRotate(target);
+                }
+            }
 
         }
         target.height = Math.max(height(target.left), height(target.right)) + 1;
 
-        return target;
+        return returnNode;
     }
 
     /**
@@ -84,6 +85,7 @@ public class AvlNode<T extends Comparable<? super T>> {
      */
     private AvlNode<T> leftRotate(AvlNode<T> data) {
         AvlNode<T> root = data.right;
+        data.right=null;
         root.left = data;
         return root;
     }
@@ -96,6 +98,7 @@ public class AvlNode<T extends Comparable<? super T>> {
      */
     private AvlNode<T> rightRotate(AvlNode<T> data) {
         AvlNode<T> root = data.left;
+        data.left=null;
         root.right = data;
         return root;
     }
