@@ -271,11 +271,7 @@ public class AvlTree<T extends Comparable<? super T>> implements BinaryTree<T> {
     @Override
     public T maximum() {
         AvlTreeNode<T> p = maximum(mRoot);
-        if (p != null) {
-            return p.key;
-        }
-
-        return null;
+        return p.key;
     }
 
     /**
