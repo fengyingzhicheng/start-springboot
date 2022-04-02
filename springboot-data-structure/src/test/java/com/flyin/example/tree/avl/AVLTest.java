@@ -1,6 +1,5 @@
 package com.flyin.example.tree.avl;
 
-import com.flyin.example.tree.service.Tree;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,20 +10,17 @@ import org.junit.Test;
  */
 
 public class AVLTest {
-    Tree<Integer> tree;
 
     @Before
     public void initAvlTree() {
-        tree=new AvlTree<>(new AvlNode<>(12));
-        tree.insert(13);
-        tree.insert(9);
-        tree.insert(10);
-        tree.insert(11);
+        //tree=new AvlTree<>(new AvlNode<>(12));
+        //tree.insert(13);
+        //tree.insert(9);
+        //tree.insert(10);
+        //tree.insert(11);
     }
 
     @Test
     public void testAvl() {
-        System.out.println("ok");
-        tree.print();
     }
 }
