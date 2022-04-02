@@ -1,4 +1,4 @@
-package com.flyin.example.tree.avl;
+package com.flyin.example.tree.binary;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -22,5 +22,12 @@ public class AVLTest {
 
     @Test
     public void testAvl() {
+        AvlTree<Integer> avlTree = new AvlTree<Integer>();
+        avlTree.insert(12);
+        avlTree.insert(13);
+        avlTree.insert(9);
+        avlTree.insert(10);
+        avlTree.insert(11);
+        avlTree.print();
     }
 }

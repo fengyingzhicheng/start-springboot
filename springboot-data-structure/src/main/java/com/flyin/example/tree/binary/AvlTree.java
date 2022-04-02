@@ -1,7 +1,7 @@
-package com.flyin.example.tree.avl;
+package com.flyin.example.tree.binary;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -12,15 +12,11 @@ import lombok.extern.slf4j.Slf4j;
  * @description
  * @date 2022/4/1 15:34
  */
+@EqualsAndHashCode(callSuper = true)
 @Slf4j
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-public class AvlTree<T extends Comparable<? super T>> implements BinaryTree<T> {
-    /**
-     * 根结点
-     */
-    private AvlTreeNode<T> mRoot;
+public class AvlTree<T extends Comparable<? super T>> extends BinaryTree<T, AvlTree.AvlTreeNode<T>> {
 
     /**
      * AVL树的节点(内部类)
@@ -28,23 +24,13 @@ public class AvlTree<T extends Comparable<? super T>> implements BinaryTree<T> {
      * @author fengying
      * @date 2022/04/02
      */
-    static class AvlTreeNode<T extends Comparable<? super T>> {
-        /**
-         * 关键字(键值)
-         */
-        T key;
+    @Data
+    @EqualsAndHashCode(callSuper = true)
+    static class AvlTreeNode<T extends Comparable<? super T>> extends Node<T, AvlTreeNode<T>> {
         /**
          * 高度
          */
         int height;
-        /**
-         * 左孩子
-         */
-        AvlTreeNode<T> left;
-        /**
-         * 右孩子
-         */
-        AvlTreeNode<T> right;
 
         public AvlTreeNode(T key, AvlTreeNode<T> left, AvlTreeNode<T> right) {
             this.key = key;
@@ -88,194 +74,9 @@ public class AvlTree<T extends Comparable<? super T>> implements BinaryTree<T> {
         return Math.max(a, b);
     }
 
-    /**
-     * 前序遍历
-     *
-     * @param tree 树
-     */
-    private void preOrder(AvlTreeNode<T> tree) {
-        if (tree != null) {
-            log.info("preOrder key {}", tree.key);
-            preOrder(tree.left);
-            preOrder(tree.right);
-        }
-    }
 
     /**
-     * 前序遍历
-     */
-    @Override
-    public void preOrder() {
-        preOrder(mRoot);
-    }
-
-    /**
-     * 中序遍历
-     *
-     * @param tree 树
-     */
-    private void inOrder(AvlTreeNode<T> tree) {
-        if (tree != null) {
-            inOrder(tree.left);
-            log.info("inOrder key {}", tree.key);
-            inOrder(tree.right);
-        }
-    }
-
-    /**
-     * 中序遍历
-     */
-    @Override
-    public void inOrder() {
-        inOrder(mRoot);
-    }
-
-    /**
-     * 后序遍历
-     *
-     * @param tree 树
-     */
-    private void postOrder(AvlTreeNode<T> tree) {
-        if (tree != null) {
-            postOrder(tree.left);
-            postOrder(tree.right);
-            log.info("postOrder key {}", tree.key);
-        }
-    }
-
-    /**
-     * 后序遍历
-     */
-    @Override
-    public void postOrder() {
-        postOrder(mRoot);
-    }
-
-    /**
-     * 二分查找
-     *
-     * @param x   x
-     * @param key 关键
-     * @return {@link AvlTreeNode}<{@link T}>
-     */
-    private AvlTreeNode<T> binarySearch(AvlTreeNode<T> x, T key) {
-        if (x == null) {
-            return x;
-        }
-
-        int cmp = key.compareTo(x.key);
-        if (cmp < 0) {
-            return binarySearch(x.left, key);
-        } else if (cmp > 0) {
-            return binarySearch(x.right, key);
-        } else {
-            return x;
-        }
-    }
-
-    /**
-     * 二分查找
-     *
-     * @param key 关键
-     * @return {@link AvlTreeNode}<{@link T}>
-     */
-    @Override
-    public AvlTreeNode<T> binarySearch(T key) {
-        return binarySearch(mRoot, key);
-    }
-
-    /**
-     * 迭代搜索
-     *
-     * @param x   x
-     * @param key 关键
-     * @return {@link AvlTreeNode}<{@link T}>
-     */
-    private AvlTreeNode<T> iterativeSearch(AvlTreeNode<T> x, T key) {
-        while (x != null) {
-            int cmp = key.compareTo(x.key);
-
-            if (cmp < 0) {
-                x = x.left;
-            } else if (cmp > 0) {
-                x = x.right;
-            } else {
-                return x;
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * 迭代搜索
-     *
-     * @param key 关键
-     * @return {@link AvlTreeNode}<{@link T}>
-     */
-    @Override
-    public AvlTreeNode<T> iterativeSearch(T key) {
-        return iterativeSearch(mRoot, key);
-    }
-
-    /**
-     * 查找最小结点：返回tree为根结点的AVL树的最小结点。
-     *
-     * @param tree 树
-     * @return {@link AvlTreeNode}<{@link T}>
-     */
-    private AvlTreeNode<T> minimum(AvlTreeNode<T> tree) {
-        if (tree == null) {
-            return null;
-        }
-
-        while (tree.left != null) {
-            tree = tree.left;
-        }
-        return tree;
-    }
-
-    /**
-     * 最小值
-     *
-     * @return {@link T}
-     */
-    @Override
-    public T minimum() {
-        AvlTreeNode<T> p = minimum(mRoot);
-        if (p != null) {
-            return p.key;
-        }
-
-        return null;
-    }
-
-    /**
-     * 查找最大结点：返回tree为根结点的AVL树的最大结点。
-     *
-     * @param tree 树
-     * @return {@link AvlTreeNode}<{@link T}>
-     */
-    private AvlTreeNode<T> maximum(AvlTreeNode<T> tree) {
-        while (tree.right != null) {
-            tree = tree.right;
-        }
-        return tree;
-    }
-
-    /**
-     * 最大值
-     *
-     * @return {@link T}
-     */
-    @Override
-    public T maximum() {
-        AvlTreeNode<T> p = maximum(mRoot);
-        return p.key;
-    }
-
-    /**
-     * 左左旋转
+     * 左左型号 右旋转
      *
      * @param k2 k2
      * @return {@link AvlTreeNode}<{@link T}>
@@ -295,7 +96,7 @@ public class AvlTree<T extends Comparable<? super T>> implements BinaryTree<T> {
     }
 
     /**
-     * 右右旋转
+     * 右右型 左旋转
      *
      * @param k1 k1
      * @return {@link AvlTreeNode}<{@link T}>
@@ -344,7 +145,8 @@ public class AvlTree<T extends Comparable<? super T>> implements BinaryTree<T> {
      * @param key  插入的结点的键值
      * @return {@link AvlTreeNode}<{@link T}> 根节点
      */
-    private AvlTreeNode<T> insert(AvlTreeNode<T> tree, T key) {
+    @Override
+    public AvlTreeNode<T> insert(AvlTreeNode<T> tree, T key) {
         if (tree == null) {
             // 新建节点
             tree = new AvlTreeNode<>(key, null, null);
@@ -358,12 +160,12 @@ public class AvlTree<T extends Comparable<? super T>> implements BinaryTree<T> {
                 if (height(tree.left) - height(tree.right) == 2) {
                     //当前值插入到目标结点的左树的左
                     if (key.compareTo(tree.left.key) < 0) {
-                        //左旋
+                        //左左型 右旋
                         tree = leftLeftRotation(tree);
                     }
                     //当前值插入到目标结点的左树的右
                     else {
-                        //左右旋
+                        //左右型 左右旋转
                         tree = leftRightRotation(tree);
                     }
                 }
@@ -393,30 +195,22 @@ public class AvlTree<T extends Comparable<? super T>> implements BinaryTree<T> {
     }
 
     /**
-     * 插入
-     *
-     * @param key 关键
-     */
-    @Override
-    public void insert(T key) {
-        mRoot = insert(mRoot, key);
-    }
-
-    /**
      * 删除
      *
      * @param tree AVL树的根结点
      * @param z    待删除的结点
      * @return {@link AvlTreeNode}<{@link T}> 根节点
      */
-    private AvlTreeNode<T> remove(AvlTreeNode<T> tree, AvlTreeNode<T> z) {
+    @Override
+    public AvlTreeNode<T> remove(AvlTreeNode<T> tree, AvlTreeNode<T> z) {
         // 根为空 或者 没有要删除的节点，直接返回null。
         if (tree == null || z == null) {
             return null;
         }
 
         int cmp = z.key.compareTo(tree.key);
-        if (cmp < 0) {        // 待删除的节点在"tree的左子树"中
+        // 待删除的节点在"tree的左子树"中
+        if (cmp < 0) {
             tree.left = remove(tree.left, z);
             // 删除节点后，若AVL树失去平衡，则进行相应的调节。
             if (height(tree.right) - height(tree.left) == 2) {
@@ -427,7 +221,9 @@ public class AvlTree<T extends Comparable<? super T>> implements BinaryTree<T> {
                     tree = rightRightRotation(tree);
                 }
             }
-        } else if (cmp > 0) {    // 待删除的节点在"tree的右子树"中
+        }
+        // 待删除的节点在"tree的右子树"中
+        else if (cmp > 0) {
             tree.right = remove(tree.right, z);
             // 删除节点后，若AVL树失去平衡，则进行相应的调节。
             if (height(tree.left) - height(tree.right) == 2) {
@@ -468,79 +264,5 @@ public class AvlTree<T extends Comparable<? super T>> implements BinaryTree<T> {
         }
 
         return tree;
-    }
-
-    /**
-     * 删除
-     *
-     * @param key 键值
-     */
-    @Override
-    public void remove(T key) {
-        AvlTreeNode<T> z;
-
-        if ((z = binarySearch(mRoot, key)) != null) {
-            mRoot = remove(mRoot, z);
-        }
-    }
-
-    /**
-     * 销毁AVL树
-     *
-     * @param tree 树
-     */
-    private void destroy(AvlTreeNode<T> tree) {
-        if (tree == null) {
-            return;
-        }
-
-        if (tree.left != null) {
-            destroy(tree.left);
-        }
-        if (tree.right != null) {
-            destroy(tree.right);
-        }
-    }
-
-    /**
-     * 摧毁
-     */
-    @Override
-    public void destroy() {
-        destroy(mRoot);
-    }
-
-    /**
-     * 打印
-     *
-     * @param tree      树
-     * @param key       节点的键值
-     * @param direction 0，表示该节点是根节点;
-     *                  -1，表示该节点是它的父结点的左孩子;
-     *                  1表示该节点是它的父结点的右孩子。
-     */
-    private void print(AvlTreeNode<T> tree, T key, int direction) {
-        if (tree != null) {
-            if (direction == 0) {
-                // tree是根节点
-                log.info("{} is root,key {}", tree.key, key);
-            } else {
-                // tree是分支节点
-                log.info("{} is {}'s {} child", tree.key, key, direction == 1 ? "right" : "left");
-            }
-
-            print(tree.left, tree.key, -1);
-            print(tree.right, tree.key, 1);
-        }
-    }
-
-    /**
-     * 打印
-     */
-    @Override
-    public void print() {
-        if (mRoot != null) {
-            print(mRoot, mRoot.key, 0);
-        }
     }
 }
