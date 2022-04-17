@@ -1,4 +1,4 @@
-package com.flyin.example.filter;
+package com.flyin.example.structure.filter;
 
 import java.util.ArrayList;
 import java.util.List;

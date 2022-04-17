@@ -1,16 +1,17 @@
-package com.flyin.example.decorator;
+package com.flyin.example.structure.decorator;
 
 /**
  * @author 王军
  * @description
- * @date 2022/3/18 13:57
+ * @date 2022/3/18 13:56
  */
-public class ConcreteDecorator2 extends Decorator
+public class ConcreteDecorator1 extends Decorator
 {
-    public ConcreteDecorator2(Component component)
+    public ConcreteDecorator1(Component component)
     {
         super(component);
     }
+
     @Override
     public void doSomething()
     {
@@ -21,7 +22,7 @@ public class ConcreteDecorator2 extends Decorator
 
     private void doAnotherThing()
     {
-        System.out.println("功能C");
+        System.out.println("功能B");
     }
 
 }

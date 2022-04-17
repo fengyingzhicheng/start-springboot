@@ -1,4 +1,4 @@
-package com.flyin.example.filter;
+package com.flyin.example.structure.filter;
 
 /**
  * @author 王军

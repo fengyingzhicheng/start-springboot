@@ -1,4 +1,4 @@
-package com.flyin.example.decorator;
+package com.flyin.example.structure.decorator;
 
 /**
  * @author 王军

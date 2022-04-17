@@ -1,4 +1,4 @@
-package com.flyin.example.command;
+package com.flyin.example.structure.command;
 
 /**
  * @author 王军
